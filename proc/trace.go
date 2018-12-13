@@ -29,8 +29,8 @@ func TraceRegion(regionType string, impl Impl) Impl {
 func Task(taskType string, impl Impl) Impl {
 	return func(ctx context.Context) error {
 		cctx, task := trace.NewTask(ctx, taskType)
+		defer task.End()
 		err := impl(cctx)
-		task.End()
 		if err != nil {
 			return TaskError{taskType, err}
 		}
