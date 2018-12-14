@@ -38,6 +38,7 @@ func Main(impl Impl) error {
 	}
 
 	cancel()
+	<-exitC // If we got an interrupt then we still need to wait for exit
 	signal.Stop(intC)
 	return err
 }

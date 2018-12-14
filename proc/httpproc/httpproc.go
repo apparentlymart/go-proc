@@ -80,7 +80,7 @@ func server(srv *http.Server, serve func() error) proc.Impl {
 		shutdownErr := srv.Shutdown(context.Background())
 		wg.Wait() // wait for the server to have exited, though in the normal path it will exit before Shutdown returns
 
-		if serveErr != nil {
+		if serveErr != nil && serveErr != http.ErrServerClosed {
 			return serveErr
 		}
 		return shutdownErr
